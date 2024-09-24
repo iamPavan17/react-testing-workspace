@@ -17,8 +17,8 @@ test("it shows two inputs and a button", function () {
   // 2. Manipulate or find the element in it
   // Example: Simulate typing inside of some text input
   // or simulate clicking on a button or something
-  const inputs = screen.getAllByRole("textbox");
-  const button = screen.getByRole("button");
+  const inputs = screen.getAllByRole("textbox"); // gets all the input elements
+  const button = screen.getByRole("button"); // gets the button element
 
   // 3. Assertion - meaning that we're going to make sure that our component
   // is doing what we expected it to do.
