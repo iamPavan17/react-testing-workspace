@@ -35,7 +35,16 @@ test("It calls onUserAdd when the form is submitted", async function () {
   render(<UserForm onUserAdd={mock} />);
 
   // Find the two inputs
-  const [nameInput, emailInput] = screen.getAllByRole("textbox");
+  const nameInput = screen.getByRole("textbox", {
+    // <label htmlFor="name">Name</label>
+    name: /name/i, // i meaning not to worry about lowercase or uppercase.
+  });
+  const emailInput = screen.getByRole("textbox", {
+    // <label htmlFor="email">Enter Email</label>
+    // Regular expression can just be "email" because it'll
+    // match against just the email part. No need to have "enter email".
+    name: /email/i,
+  });
 
   // Simulate typing in a name
   user.click(nameInput);
