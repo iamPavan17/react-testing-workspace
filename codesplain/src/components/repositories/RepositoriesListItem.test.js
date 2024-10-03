@@ -41,7 +41,9 @@ test("shows a link to the github homepage for this repository", async function (
     name: /javascript/i,
   });
 
-  const linkElement = screen.getByRole("link");
+  const linkElement = screen.getByRole("link", {
+    name: /github repository/i,
+  });
   expect(linkElement).toHaveAttribute("href", repository.html_url);
 });
 
