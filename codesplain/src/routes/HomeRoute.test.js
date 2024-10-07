@@ -5,7 +5,11 @@ import { MemoryRouter } from "react-router";
 import HomeRoute from "./HomeRoute";
 
 const handlers = [
+  // So this function, is going to watch for any request
+  // that is being made by our components.
   rest.get("/api/repositories", (req, res, ctx) => {
+    // Our all requests have query string with a letter q in it.
+    // And it has some filter criteria.
     const query = req.url.searchParams.get("q");
     console.log(query);
 
@@ -22,14 +26,17 @@ const handlers = [
 
 const server = setupServer(...handlers);
 
+// Will execute one time before all the tests inside of this file.
 beforeAll(() => {
-  server.listen();
+  server.listen(); // start the server and listen
 });
 
+// Will execute one time after each individual tests is executed inside of this file.
 afterEach(() => {
-  server.resetHandlers();
+  server.resetHandlers(); // reset the handlers to their initial state.
 });
 
+// Will execute one time after all tests have executed inside of this file.
 afterAll(() => {
-  server.close();
+  server.close(); // close the server
 });
