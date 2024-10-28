@@ -3,12 +3,13 @@ import { MemoryRouter } from "react-router";
 import { createServer } from "../../test/server";
 import AuthButtons from "./AuthButtons";
 
-function renderComponent() {
-  return render(
+async function renderComponent() {
+  render(
     <MemoryRouter>
       <AuthButtons />
     </MemoryRouter>
   );
+  await screen.findAllByRole("link"); // to solve act warning
 }
 
 // const pause = () => new Promise((resolve) => setTimeout(resolve, 100));
@@ -23,13 +24,34 @@ describe("when user is not signed in", () => {
       },
     },
   ]);
+
   test("sign in and sign up are visible", async () => {
-    renderComponent();
-    await screen.findAllByRole("link");
+    await renderComponent();
+
+    const signInButton = screen.getByRole("link", {
+      name: /sign in/i,
+    });
+    const signUpButton = screen.getByRole("link", {
+      name: /sign up/i,
+    });
+
+    expect(signInButton).toBeInTheDocument();
+    expect(signInButton).toHaveAttribute("href", "/signin");
+
+    expect(signUpButton).toBeInTheDocument();
+    expect(signUpButton).toHaveAttribute("href", "/signup");
   });
+
   test("sign out is not visible", async () => {
-    renderComponent();
-    await screen.findAllByRole("link");
+    await renderComponent();
+
+    const signOutButton = screen.queryByRole("link", {
+      name: /sign out/i,
+    });
+
+    // Even this also works, as queryByRole returns null when it doesn't find any element.
+    // expect(signOutButton).toBeNull();
+    expect(signOutButton).not.toBeInTheDocument();
   });
 });
 
